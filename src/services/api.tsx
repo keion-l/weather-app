@@ -11,16 +11,16 @@ export interface ApiProps {
 export const useApiModule = () => {
 
     const [loading, setLoading] = useState<boolean>(false); 
-    const [coordinates, setCoordinates] = useState<Coordinates | null>(null); 
+    const [coordinates, setCoordinates] = useState<Coordinates | null>({lat: -19.259, lng: -146.8169}); 
     const apiHost = process.env.ApiHost; 
 
     useEffect(() => {
         const interval = setInterval(() => {
 
             console.log('Time interval executed'); 
-            getUserLocation();
+
             if (coordinates) {
-                getCurrentWeather(); 
+                getCurrentWeather();
             }
         }, 5000);
         return () => clearInterval(interval);
@@ -42,9 +42,10 @@ export const useApiModule = () => {
             if (response){
                 const data = response.json()
                 console.log(data); 
+                return data; 
             }
         } catch (e) {
-            console.log(e); 
+            return e; 
         }
     }
 
